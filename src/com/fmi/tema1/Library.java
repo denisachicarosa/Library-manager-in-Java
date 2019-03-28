@@ -13,10 +13,6 @@ public class Library {
     private String name;
     private String address;
     private Integer numberOfBooks;
-    private Integer numberOfLoans;
-    private Integer numberOfEmployees;
-    private Integer numberOfClients;
-
     private ArrayList<Book> books;
     private ArrayList<Loan> loans;
     private ArrayList<Employee> employees;
@@ -56,9 +52,23 @@ public class Library {
         numberOfBooks++;
     }
 
-    public void addLoan(Loan l) {
-        loans.add(l);
+    public boolean findBook(Book b) {
+        for ( int i = 0; i < books.size(); i++) {
+            if (books.get(i).getTitle() == b.getTitle() && books.get(i).getAuthor() == b.getAuthor() )
+                return true;
+        }
+        return false;
     }
+
+    public boolean checkLoan(Loan l) {
+        for ( int i = 0; i < books.size(); i++) {
+            if (books.get(i).getTitle() == l.getBookTitle() && books.get(i).getAuthor() == l.getBookAuthor() )
+                return true;
+        }
+        return false;
+    }
+
+
 
     public void readData() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
@@ -85,11 +95,15 @@ public class Library {
         while (read == 1) {
             Loan l = new Loan();
             l.readData();
-            addLoan(l);
-            if (!clients.contains(l.getClient())) clients.add(l.getClient());
+            if(checkLoan(l)) {
+                loans.add(l);
+                if (!clients.contains(l.getClient())) clients.add(l.getClient());
+            }
+            else System.out.println("The book doesn't exist in our library");
             System.out.println("Press 1 to add another loan and 0 to exit");
             Scanner in = new Scanner(System.in);
             read = in.nextInt();
+
         }
         read = 1;
         System.out.println("Reading employees");
@@ -131,6 +145,7 @@ public class Library {
     }
 
     public void printClients() {
+        System.out.println("Our clients are: ");
         for (int i = 0; i < clients.size(); i++){
             clients.get(i).printData();
             System.out.println("");
@@ -138,6 +153,7 @@ public class Library {
     }
 
     public void printEmployees() {
+        System.out.println("Our employees are: ");
         for (int i = 0; i < employees.size(); i++){
             employees.get(i).printData();
             System.out.println("");

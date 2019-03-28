@@ -3,6 +3,7 @@ package com.fmi.tema1;
 import com.persons.tema1.Client;
 import com.persons.tema1.Employee;
 import com.persons.tema1.Person;
+import sun.font.StandardTextSource;
 
 public class MainClass {
 
@@ -39,8 +40,12 @@ public class MainClass {
 //        PublishingHouse publisher = new PublishingHouse();
 //        publisher.readData();
 //        publisher.printData();
-        Library library = new Library();
-        library.readData();
-        library.printData();
+//        Library library = new Library();
+//        library.readData();
+//        library.printData();
+        Date d = new Date(20,12,2019);
+        Date d2 = new Date();
+        d2 = d.addDays(54);
+        d2.printData();
     }
 }

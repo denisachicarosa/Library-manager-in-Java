@@ -10,6 +10,31 @@ public class Date {
     public Integer month;
     public Integer year;
 
+    public Date addDays(int days) {
+        Date returnDay = new Date();
+        days += day;
+        if(days < 30) {
+            returnDay.day = days;
+            returnDay.month = month;
+            returnDay.year = year;
+        }
+        else
+        {
+            int returnMonths = days / 30;
+            if (month + returnMonths <= 12) {
+              returnDay.day = days % 30;
+              returnDay.month = month + returnMonths;
+              returnDay.year = year;
+            }
+            else {
+                returnDay.day = days % 30;
+                returnDay.year = year + (returnMonths + month) / 12;
+                returnDay.month = (returnMonths + month) % 12;
+            }
+        }
+        return returnDay;
+    }
+
     public void readData() {
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         try {
@@ -54,6 +79,7 @@ public class Date {
     }
 
     public Date() {
+        day = month = year = 0;
     }
 
     public Integer getDay() {
