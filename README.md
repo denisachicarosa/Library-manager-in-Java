@@ -2,7 +2,7 @@
 
 For now:
 
-- main clasees implemented
+- main classes implemented
 - reading and printing functions are working fine
 
 
