@@ -125,7 +125,7 @@ public class Command {
         System.out.println("8. Add a new employee");
         System.out.println("9. Check if a book exists in the library");
         System.out.println("10. Check if a book is available");
-        System.out.println("11. Get the clients that have not returned the books yet");
+        System.out.println("11.  Get the clients that have not returned the books yet");
         System.out.println("12. Get the number of employees");
         System.out.println("13. Get the max salary");
         System.out.println("0. Exit menu ");
