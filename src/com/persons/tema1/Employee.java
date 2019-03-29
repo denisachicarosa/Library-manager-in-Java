@@ -11,6 +11,7 @@ public class Employee extends Person {
     private String function;
     private Double salary;
 
+
     @Override
     public void readData() {
         super.readData();

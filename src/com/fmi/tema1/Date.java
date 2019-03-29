@@ -44,7 +44,8 @@ public class Date {
             e.printStackTrace();
         }
     }
-    public void strToDate(String bd) {
+    public void strToDate(String data) {
+        String bd = data;
         Integer x;
         x = bd.charAt(0) - '0';
         x = x*10;
@@ -104,5 +105,15 @@ public class Date {
 
     public void setYear(Integer year) {
         this.year = year;
+    }
+
+    public boolean compareDate (Date d) {
+        if (d.year < year) return true;
+        if (d.year > year) return false;
+        if (d.month < month) return true;
+        if (d.month > month) return false;
+        if (d.day < day) return true;
+        if (d.day > day) return false;
+        return true;
     }
 }

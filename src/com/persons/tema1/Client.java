@@ -10,6 +10,8 @@ public class Client extends Person {
     private Integer ID;
     private String contact;
 
+
+
     @Override
     public void readData() {
 
@@ -35,6 +37,12 @@ public class Client extends Person {
     }
     public Client(Integer ID, String contact) {
         this.ID = ID;
+        this.contact = contact;
+    }
+
+    public Client(String firstName, String lastName, String birthday, String adress, String contact) {
+        super(firstName, lastName, birthday, adress);
+        ID = count.incrementAndGet();
         this.contact = contact;
     }
 

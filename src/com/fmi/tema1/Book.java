@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Book {
+public class Book implements Comparable<Book> {
     private static final AtomicInteger count = new AtomicInteger(0);
     private Integer ID;
     private String Title;
@@ -19,6 +19,15 @@ public class Book {
         ID = count.incrementAndGet();
         shelf = 0;
         publisher = new PublishingHouse();
+    }
+
+    public Book(String title, String author, Integer shelf, String pname, String pAddress, boolean available) {
+        ID = count.incrementAndGet();
+        Title = title;
+        Author = author;
+        this.shelf = shelf;
+        this.publisher = new PublishingHouse(pname, pAddress);
+        this.available = available;
     }
 
     public void readData() {
@@ -47,9 +56,9 @@ public class Book {
         System.out.println("shelf : " + shelf);
         System.out.println("available : " + available);
     }
-    public Book(Integer ID, String title, String author, Integer shelf, PublishingHouse publisher, boolean available) {
-        this.ID = ID;
-        //ID = count.incrementAndGet();
+    public Book( String title, String author, Integer shelf, PublishingHouse publisher, boolean available) {
+        //this.ID = ID;
+        ID = count.incrementAndGet();
         Title = title;
         Author = author;
         this.shelf = shelf;
@@ -103,5 +112,9 @@ public class Book {
 
     public void setPublisher(PublishingHouse publisher) {
         this.publisher = publisher;
+    }
+
+    public int compareTo(Book a) {
+        return this.getTitle().compareTo(a.getTitle());
     }
 }

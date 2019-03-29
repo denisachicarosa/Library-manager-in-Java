@@ -22,6 +22,14 @@ public class Loan {
         this.loanDate = loanDate;
         this.returnDate = returnDate;
     }
+    public Loan (String firstName, String lastName, String birthday, String address, String contact, String bookTitle, String bookAuthor, Integer day, Integer month, Integer year) {
+        client = new Client(firstName, lastName, birthday, address, contact);
+        this.bookTitle = bookTitle;
+        this.bookAuthor = bookAuthor;
+        this.loanDate = new Date(day, month, year);
+        returnDate = new Date();
+        returnDate = loanDate.addDays(14);
+    }
 
     private void setReturnDate() {
         returnDate = (Date) loanDate.addDays(14);
@@ -46,7 +54,6 @@ public class Loan {
         } catch (IOException e) {
             e.printStackTrace();
         }
-        //book.readData();
         System.out.println("loanDate : ");
         loanDate.readData();
         setReturnDate();
