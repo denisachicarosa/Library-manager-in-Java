@@ -14,6 +14,28 @@ public class Command {
         library = new Library();
         library.updateBooks();
         //library.readData();
+
+    }
+
+    public void printMenu(){
+        System.out.println("------>  Menu  <------");
+        System.out.println();
+        System.out.println("1. Get all the information about the library");
+        System.out.println("2. Get the books in alphabetically order");
+        System.out.println("3. Get all the clients");
+        System.out.println("4. Get all the loans");
+        System.out.println("5. Create a new loan paper");
+        System.out.println("6. Add a new book");
+        System.out.println("7. Add a new client");
+        System.out.println("8. Add a new employee");
+        System.out.println("9. Check if a book exists in the library");
+        System.out.println("10. Check if a book is available");
+        System.out.println("11.  Get the clients that have not returned the books yet");
+        System.out.println("12. Get the number of employees");
+        System.out.println("13. Get the max salary");
+        System.out.println("0. Exit menu ");
+    }
+    public void start() {
         printMenu();
         int command;
         Scanner in = new Scanner(System.in);
@@ -111,24 +133,4 @@ public class Command {
             command = in.nextInt();
         }
     }
-
-    public void printMenu(){
-        System.out.println("------>  Menu  <------");
-        System.out.println();
-        System.out.println("1. Get all the information about the library");
-        System.out.println("2. Get the books in alphabetically order");
-        System.out.println("3. Get all the clients");
-        System.out.println("4. Get all the loans");
-        System.out.println("5. Create a new loan paper");
-        System.out.println("6. Add a new book");
-        System.out.println("7. Add a new client");
-        System.out.println("8. Add a new employee");
-        System.out.println("9. Check if a book exists in the library");
-        System.out.println("10. Check if a book is available");
-        System.out.println("11.  Get the clients that have not returned the books yet");
-        System.out.println("12. Get the number of employees");
-        System.out.println("13. Get the max salary");
-        System.out.println("0. Exit menu ");
-    }
-
 }

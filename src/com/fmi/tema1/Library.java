@@ -266,9 +266,15 @@ public class Library {
 //            else books.get(i).setAvailable(false);
 //        }
         for (int i = 0; i < loans.size(); i++) {
-            if (returnedBook(loans.get(i))) {
+            if (!returnedBook(loans.get(i))) {
                 idx = getBookIndex(loans.get(i).getBookTitle(),loans.get(i).getBookAuthor());
                 books.get(idx).setAvailable(true);
+                System.out.println("The "+idx+ " book is now available");
+            }
+            else {
+                idx = getBookIndex(loans.get(i).getBookTitle(),loans.get(i).getBookAuthor());
+                books.get(idx).setAvailable(false);
+                //System.out.println("The "+idx+ " book is now available");
             }
         }
     }
