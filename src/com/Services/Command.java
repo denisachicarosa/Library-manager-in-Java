@@ -12,7 +12,7 @@ public class Command {
     private Library library;
     public Command(){
         library = new Library();
-        library.updateBooks();
+        library.updateObjects();
         //library.readData();
 
     }
@@ -30,9 +30,10 @@ public class Command {
         System.out.println("8. Add a new employee");
         System.out.println("9. Check if a book exists in the library");
         System.out.println("10. Check if a book is available");
-        System.out.println("11.  Get the clients that have not returned the books yet");
+        System.out.println("11. Get the clients that have not returned the books yet");
         System.out.println("12. Get the number of employees");
         System.out.println("13. Get the max salary");
+        System.out.println("14. Get all the movies");
         System.out.println("0. Exit menu ");
     }
     public void start() {
@@ -100,8 +101,12 @@ public class Command {
                         name = reader.readLine();
                         System.out.println("Author : ");
                         author = reader.readLine();
+
+                        System.out.println("Titlu: " + name + " Autor: " + author);
+
                         boolean available;
-                        available = library.checkAvailable(name,author);
+
+                        available = library.check(name,author);
                         if (available)
                             System.out.println("The book is available");
                         else System.out.println("The book is not available");
@@ -120,6 +125,10 @@ public class Command {
                 }
                 case 13: {
                     System.out.println(library.getMaxSalary());
+                    break;
+                }
+                case 14: {
+                    library.printMovies();
                     break;
                 }
                 default: {

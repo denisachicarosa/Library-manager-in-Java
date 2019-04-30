@@ -4,10 +4,11 @@ import com.Services.Command;
 
 public class MainClass {
 
-
-
     public static void main(String[] args) {
         Command c = new Command();
         c.start();
+//        Date d = new Date();
+//        d.readData();
+//        d.printData();
     }
 }

@@ -36,6 +36,8 @@ public class Date {
     }
 
     public void readData() {
+        System.out.println("Here I am");
+
         BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
         try {
             String bd = reader.readLine();
@@ -44,6 +46,13 @@ public class Date {
             e.printStackTrace();
         }
     }
+
+    public boolean egal (Date d) {
+        if (d.day == day && d.month == month && d.year == year)
+            return true;
+        return false;
+    }
+
     public void strToDate(String data) {
         String bd = data;
         Integer x;
