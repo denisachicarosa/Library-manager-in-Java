@@ -1,14 +1,15 @@
-package com.fmi.tema1;
+package com.Model;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.Scanner;
+
 
 public class Date {
     public Integer day;
     public Integer month;
     public Integer year;
+    public String today;
 
     public Date addDays(int days) {
         Date returnDay = new Date();

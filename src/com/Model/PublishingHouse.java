@@ -1,11 +1,8 @@
-package com.fmi.tema1;
-
-import com.sun.org.apache.xml.internal.utils.SystemIDResolver;
+package com.Model;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.nio.channels.ReadableByteChannel;
 
 public class PublishingHouse {
     private String Name;

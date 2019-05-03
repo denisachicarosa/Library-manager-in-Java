@@ -1,6 +1,4 @@
-package com.persons.tema1;
-
-import com.fmi.tema1.Date;
+package com.Persons;
 
 import java.io.BufferedReader;
 import java.io.IOException;

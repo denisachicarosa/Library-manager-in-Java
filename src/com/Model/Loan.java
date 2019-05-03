@@ -1,6 +1,7 @@
-package com.fmi.tema1;
+package com.Model;
 
-import com.persons.tema1.Client;
+import com.Persons.Client;
+import com.sun.org.apache.xpath.internal.operations.Bool;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -29,26 +30,47 @@ public class Loan {
         this.object.equals(object);
     }
 
+    public Loan(String[] values) {
+        Integer idClient = Integer.parseInt(values[0]);
+        String firstName = values[1];
+        String lastName = values[2];
+        String birthday = values[3];
+        String address = values[4];
+        String contact = values[5];
+        Integer day = Integer.parseInt(values[6]);
+        Integer month = Integer.parseInt(values[7]);
+        Integer year = Integer.parseInt(values[8]);
+        client = new Client(idClient, firstName, lastName, birthday, address, contact);
+        this.loanDate = new Date(day, month, year);
+        returnDate = new Date();
+        returnDate = loanDate.addDays(14);
+        if (values.length == 16)
+        { // book loaned
+            Integer idBook = Integer.parseInt(values[9]);
+            String title = values[10];
+            String author = values[11];
+            Integer shelf = Integer.parseInt(values[12]);
+            String pname = values[13];
+            String pAddress = values[14];
+            Boolean available = Boolean.parseBoolean(values[15]);
+            object = new Book(idBook, title, author, shelf, pname, pAddress, available);
+        }
+        else { //movie loaned
+            Integer idMovie = Integer.parseInt(values[9]);
+            Integer shelf = Integer.parseInt(values[10]);
+            boolean available = Boolean.parseBoolean(values[11]);
+            String title = values[12];
+            Integer rday = Integer.parseInt(values[13]);
+            Integer rmonth = Integer.parseInt(values[14]);
+            Integer ryear = Integer.parseInt(values[15]);
+            String genre = values[16];
+            Double rating = Double.parseDouble(values[17]);
+            object = new Movie(idMovie,shelf, available, title, rday, rmonth, ryear,genre, rating);
+        }
+    }
+
     public Loan(String firstName, String lastName, String birthday, String address, String contact, Integer day, Integer month, Integer year, String title, String author, Integer shelf, String pname, String pAddress, boolean available) {
         client = new Client(firstName, lastName, birthday, address, contact);
-//        System.out.println("Do you want to loan a book or a movie? ");
-//        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
-//        String obj = "";
-//
-//        try {
-//            obj = reader.readLine();
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-//
-//        switch (obj) {
-//            case "book": {
-//                object = new Book();
-//            }
-//            case "movie": {
-//                object = new Movie();
-//            }
-
         object = new Book(title, author, shelf, pname, pAddress, available);
         this.loanDate = new Date(day, month, year);
         returnDate = new Date();

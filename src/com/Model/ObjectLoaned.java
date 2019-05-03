@@ -1,8 +1,9 @@
-package com.fmi.tema1;
+package com.Model;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.util.concurrent.atomic.AtomicInteger;
 
 public class ObjectLoaned {
@@ -15,6 +16,12 @@ public class ObjectLoaned {
     public ObjectLoaned(Integer shelf, boolean available) {
         this.available = available;
         ID = count.incrementAndGet();
+        this.shelf = shelf;
+    }
+
+    public ObjectLoaned(Integer ID, Integer shelf, boolean available) {
+        this.available = available;
+        this.ID = ID;
         this.shelf = shelf;
     }
 

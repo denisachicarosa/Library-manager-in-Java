@@ -1,6 +1,4 @@
-package com.persons.tema1;
-
-import com.fmi.tema1.Date;
+package com.Persons;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -27,6 +25,11 @@ public class Employee extends Person {
         }
     }
 
+    public Employee(String[] values) {
+        super(values[0],values[1],values[2],values[3]);
+        this.function = values[4];
+        this.salary = Double.parseDouble(values[5]);
+    }
     @Override
     public  void printData() {
         super.printData();
@@ -34,11 +37,13 @@ public class Employee extends Person {
         System.out.println("salary : " + salary);
     }
     public Employee() {
+        super();
         function = "";
         salary = 0.0;
     }
 
     public Employee(String function, Double salary) {
+        super();
         this.function = function;
         this.salary = salary;
     }

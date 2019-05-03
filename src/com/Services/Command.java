@@ -1,7 +1,6 @@
 package com.Services;
 
-import com.fmi.tema1.Book;
-import com.fmi.tema1.Library;
+import com.Model.Library;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -13,6 +12,7 @@ public class Command {
     public Command(){
         library = new Library();
         library.updateObjects();
+        library.readData();
         //library.readData();
 
     }

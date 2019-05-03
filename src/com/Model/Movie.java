@@ -1,4 +1,4 @@
-package com.fmi.tema1;
+package com.Model;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -20,10 +20,30 @@ public class Movie extends ObjectLoaned{
         this.title = title;
     }
 
+    public Movie (String[] values) {
+        super(Integer.parseInt(values[0]),Boolean.parseBoolean(values[1]));
+        this.title = values[2];
+        Integer day,month,year;
+        day = Integer.parseInt(values[3]);
+        month = Integer.parseInt(values[4]);
+        year = Integer.parseInt(values[5]);
+        this.release = new Date(day, month, year);
+        this.genre = values[6];
+        this.rating = Double.parseDouble(values[7]);
+
+    }
     public Movie(Integer shelf, boolean available, String title, Date release, String genre, Double rating) {
         super(shelf, available);
         this.title = title;
         this.release =new Date(release.getDay(), release.getMonth(), release.getYear());
+        this.genre = genre;
+        this.rating = rating;
+    }
+
+    public Movie(Integer ID, Integer shelf, boolean available, String title, Integer day, Integer month, Integer year, String genre, Double rating) {
+        super(ID, shelf, available);
+        this.title = title;
+        this.release = new Date(day, month, year);
         this.genre = genre;
         this.rating = rating;
     }

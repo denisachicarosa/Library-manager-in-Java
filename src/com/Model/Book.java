@@ -1,9 +1,10 @@
-package com.fmi.tema1;
+package com.Model;
+
+import com.sun.xml.internal.ws.client.BindingProviderProperties;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
-import java.util.concurrent.atomic.AtomicInteger;
 
 public class Book  extends  ObjectLoaned implements Comparable<Book> {
 
@@ -23,6 +24,32 @@ public class Book  extends  ObjectLoaned implements Comparable<Book> {
         this.publisher = new PublishingHouse(pname, pAddress);
 
     }
+
+    public Book(Integer ID, String title, String author, Integer shelf, String pname, String pAddress, boolean available) {
+        super(ID, shelf, available);
+        this.title = title;
+        this.author = author;
+        this.publisher = new PublishingHouse(pname, pAddress);
+
+    }
+
+    public Book( String title, String author, Integer shelf, PublishingHouse publisher, boolean available) {
+        //this.ID = ID;
+
+        super(shelf, available);
+        this.title = title;
+        this.author = author;
+        this.publisher = publisher;
+    }
+
+    public Book(String[] values) {
+        super(Integer.parseInt(values[2]),Boolean.parseBoolean(values[5]));
+        this.title = values[0];
+        this.author = values[1];
+        this.publisher = new PublishingHouse(values[3],values[4]);
+    }
+
+
 
     @Override
     public void readData() {
@@ -51,14 +78,6 @@ public class Book  extends  ObjectLoaned implements Comparable<Book> {
         publisher.printData();
     }
 
-    public Book( String title, String author, Integer shelf, PublishingHouse publisher, boolean available) {
-        //this.ID = ID;
-
-        super(shelf, available);
-        this.title = title;
-        this.author = author;
-        this.publisher = publisher;
-    }
 
     @Override
     public String getTitle() {

@@ -1,4 +1,4 @@
-package com.persons.tema1;
+package com.Persons;
 
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -11,7 +11,11 @@ public class Client extends Person {
     private String contact;
 
 
-
+    public Client(String[] values) {
+        super(values[0], values[1], values[2],values[3]);
+        ID = count.incrementAndGet();
+        contact = values[4];
+    }
     @Override
     public void readData() {
 
@@ -32,9 +36,11 @@ public class Client extends Person {
     }
 
     public Client() {
+        super();
         ID = count.incrementAndGet();
         contact = "";
     }
+
     public Client(Integer ID, String contact) {
         this.ID = ID;
         this.contact = contact;
@@ -43,6 +49,12 @@ public class Client extends Person {
     public Client(String firstName, String lastName, String birthday, String adress, String contact) {
         super(firstName, lastName, birthday, adress);
         ID = count.incrementAndGet();
+        this.contact = contact;
+    }
+
+    public Client(Integer id, String firstName, String lastName, String birthday, String adress, String contact) {
+        super(firstName, lastName, birthday, adress);
+        ID = id;
         this.contact = contact;
     }
 
