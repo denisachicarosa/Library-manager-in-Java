@@ -84,7 +84,33 @@ public class ObjectLoaned {
         return new Date();
     }
 
+    public String getPublisherName() {
+        return "";
+    }
 
+    public String getPublisherAddress() {
+        return "";
+    }
+
+
+    public Double getRating() {
+        return 0.0  ;
+    }
+
+
+    public Integer getReleaseDay() {
+        return 0;
+    }
+
+
+    public Integer getReleaseMonth() {
+        return 0;
+    }
+
+
+    public Integer getReleaseYear() {
+        return 0;
+    }
     public void setAvailable(boolean available) {
         this.available = available;
     }

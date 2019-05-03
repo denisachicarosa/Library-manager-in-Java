@@ -11,8 +11,9 @@ public class Command {
     private Library library;
     public Command(){
         library = new Library();
-        library.updateObjects();
         library.readData();
+        library.updateObjects();
+
         //library.readData();
 
     }

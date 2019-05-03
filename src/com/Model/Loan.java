@@ -1,14 +1,27 @@
 package com.Model;
 
 import com.Persons.Client;
+import com.Services.FileAdd;
 import com.sun.org.apache.xpath.internal.operations.Bool;
+import com.sun.xml.internal.bind.v2.model.core.ID;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
-public class Loan {
+public class Loan implements FileAdd {
     private Client client;
+    private ObjectLoaned object;
+    //private Book book;
+    private Date loanDate;
+
+    public Loan(Client client, ObjectLoaned object, Date loanDate, Date returnDate) {
+        this.client = client;
+        this.object = object;
+        this.loanDate = loanDate;
+        this.returnDate = returnDate;
+    }
+
+    private Date returnDate;
+
 
     public ObjectLoaned getObject() {
         return object;
@@ -18,10 +31,6 @@ public class Loan {
         this.object = object;
     }
 
-    private ObjectLoaned object;
-    //private Book book;
-    private Date loanDate;
-    private Date returnDate;
 
     public Loan(Client client, Date loanDate, Date returnDate, ObjectLoaned object) {
         this.client = client;
@@ -31,6 +40,8 @@ public class Loan {
     }
 
     public Loan(String[] values) {
+//        System.out.println("values[1] = " + values[0] + " .");
+//        System.out.println(values.length);
         Integer idClient = Integer.parseInt(values[0]);
         String firstName = values[1];
         String lastName = values[2];
@@ -120,8 +131,25 @@ public class Loan {
     public void readData() {
 
         System.out.println("Client : ");
+//        System.out.println("Client ID : ");
+//        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+//        Integer id = 0;
+//        try {
+//            id = Integer.parseInt(reader.readLine());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
         client.readData();
+        //client.setID(id);
+//        System.out.println("Object ID : ");
+//        try {
+//            id = Integer.parseInt(reader.readLine());
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
         object.readData();
+        //object.setID(id);
         System.out.println("loanDate : ");
         loanDate.readData();
         setReturnDate();
@@ -160,6 +188,82 @@ public class Loan {
 
     public void setReturnDate(Date returnDate) {
         this.returnDate = returnDate;
+    }
+
+    @Override
+    public void addToFile(String fileName) {
+        File log = new File(fileName);
+        try {
+            PrintWriter pw = new PrintWriter(new FileWriter(log, true));
+            StringBuilder sb = new StringBuilder();
+
+            sb.append(client.getID().toString());
+            sb.append(",");
+            sb.append(client.getFirstName());
+            sb.append(",");
+            sb.append(client.getLastName());
+            sb.append(",");
+            sb.append(client.getBirthday());
+            sb.append(",");
+            sb.append(client.getAdress());
+            sb.append(",");
+            sb.append(client.getContact());
+            sb.append(",");
+            sb.append(loanDate.getDay().toString());
+            sb.append(",");
+            sb.append(loanDate.getMonth().toString());
+            sb.append(",");
+            sb.append(loanDate.getYear().toString());
+            sb.append(",");
+
+            sb.append(object.getID().toString());
+            sb.append(",");
+
+            if (object.getClass().getName() == "com.Model.Book") {
+
+                sb.append(object.getTitle());
+                sb.append(",");
+                sb.append(object.getAuthor());
+                sb.append(",");
+                sb.append(object.getShelf().toString());
+                sb.append(",");
+                sb.append(object.getPublisherName());
+                sb.append(",");
+                sb.append(object.getPublisherAddress());
+                sb.append(",");
+                sb.append(object.isAvailable());
+
+            }
+            else {
+                System.out.println(" file name is " + fileName);
+                sb.append(object.getShelf().toString());
+                sb.append(",");
+                sb.append(object.isAvailable());
+                sb.append(",");
+                sb.append(object.getTitle());
+                sb.append(",");
+                sb.append(object.getReleaseDay().toString());
+                sb.append(",");
+                sb.append(object.getReleaseMonth().toString());
+                sb.append(",");
+                sb.append(object.getReleaseYear().toString());
+                sb.append(",");
+                sb.append(object.getGenre());
+                sb.append(",");
+                sb.append(object.getRating().toString());
+            }
+
+//            sb.append("\r\n");
+
+            pw.println(sb.toString());
+            pw.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 }
 

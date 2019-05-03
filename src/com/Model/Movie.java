@@ -1,10 +1,11 @@
 package com.Model;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import com.Services.FileAdd;
+import org.omg.CORBA.PUBLIC_MEMBER;
 
-public class Movie extends ObjectLoaned{
+import java.io.*;
+
+public class Movie extends ObjectLoaned implements FileAdd {
 
     private String title;
     private Date release;
@@ -20,10 +21,10 @@ public class Movie extends ObjectLoaned{
         this.title = title;
     }
 
-    public Movie (String[] values) {
-        super(Integer.parseInt(values[0]),Boolean.parseBoolean(values[1]));
+    public Movie(String[] values) {
+        super(Integer.parseInt(values[0]), Boolean.parseBoolean(values[1]));
         this.title = values[2];
-        Integer day,month,year;
+        Integer day, month, year;
         day = Integer.parseInt(values[3]);
         month = Integer.parseInt(values[4]);
         year = Integer.parseInt(values[5]);
@@ -32,10 +33,11 @@ public class Movie extends ObjectLoaned{
         this.rating = Double.parseDouble(values[7]);
 
     }
+
     public Movie(Integer shelf, boolean available, String title, Date release, String genre, Double rating) {
         super(shelf, available);
         this.title = title;
-        this.release =new Date(release.getDay(), release.getMonth(), release.getYear());
+        this.release = new Date(release.getDay(), release.getMonth(), release.getYear());
         this.genre = genre;
         this.rating = rating;
     }
@@ -81,13 +83,13 @@ public class Movie extends ObjectLoaned{
     }
 
     @Override
-    public void printData(){
+    public void printData() {
         super.printData();
-        System.out.println("Title : " + title );
+        System.out.println("Title : " + title);
         System.out.println("release date: ");
         release.printData();
         System.out.println("Genre: " + genre);
-        System.out.println("Rating: "+ rating);
+        System.out.println("Rating: " + rating);
     }
 
     @Override
@@ -98,6 +100,7 @@ public class Movie extends ObjectLoaned{
     public void setRelease(Date release) {
         this.release = release;
     }
+
     @Override
     public String getGenre() {
         return genre;
@@ -107,11 +110,67 @@ public class Movie extends ObjectLoaned{
         this.genre = genre;
     }
 
+    @Override
     public Double getRating() {
         return rating;
     }
 
     public void setRating(Double rating) {
         this.rating = rating;
+    }
+
+    @Override
+    public Integer getReleaseDay() {
+        return 0;
+    }
+
+    @Override
+    public Integer getReleaseMonth() {
+        return 0;
+    }
+
+    @Override
+    public Integer getReleaseYear() {
+        return 0;
+    }
+
+
+    @Override
+    public void addToFile(String fileName) {
+        File log = new File(fileName);
+        try {
+            PrintWriter pw = new PrintWriter(new FileWriter(log, true));
+            StringBuilder sb = new StringBuilder();
+
+            //System.out.println(" file name is " + fileName);
+            sb.append(getShelf().toString());
+            sb.append(",");
+            sb.append(isAvailable());
+            sb.append(",");
+            sb.append(title);
+            sb.append(",");
+            sb.append(release.getDay().toString());
+            sb.append(",");
+            sb.append(release.getMonth().toString());
+            sb.append(",");
+            sb.append(release.getYear().toString());
+            sb.append(",");
+            sb.append(genre);
+            sb.append(",");
+            sb.append(rating.toString());
+
+            pw.println(sb.toString());
+            pw.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    public boolean egal(Movie m) {
+        if (getShelf().equals(m.getShelf()) && title.equals(m.title)&& release.egal(m.release) && genre.equals(m.genre) && rating.equals(m.rating))
+            return true;
+        return false;
     }
 }

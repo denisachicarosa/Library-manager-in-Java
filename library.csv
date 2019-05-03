@@ -1,2 +1,2 @@
 Name,Address,booksFile,moviesFile,clientsFile,loansFile,employeesFile
-Carturesti,Centrul-Vechi-Bucuresti,books.csv,movies.csv,clients.csv,loans.csv,employees.csv
+Carturesti,Centrul-Vechi-Bucuresti,books.csv,movies.csv,clients.csv,loansBook.csv,loansMovie.csv,employees.csv

@@ -1,11 +1,11 @@
 package com.Persons;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import com.Services.FileAdd;
+
+import java.io.*;
 import java.util.Scanner;
 
-public class Employee extends Person {
+public class Employee extends Person  implements FileAdd {
     private String function;
     private Double salary;
 
@@ -68,5 +68,31 @@ public class Employee extends Person {
 
     public void setSalary(Double salary) {
         this.salary = salary;
+    }
+
+    @Override
+    public void addToFile(String fileName) {
+        File log = new File(fileName);
+        try {
+            PrintWriter pw = new PrintWriter(new FileWriter(log, true));
+            StringBuilder sb = new StringBuilder();
+
+            sb.append(getFirstName());
+            sb.append(",");
+            sb.append(getLastName());
+            sb.append(",");
+            sb.append(getBirthday());
+            sb.append(",");
+            sb.append(getAdress());
+            sb.append(",");
+            sb.append(getFunction());
+            sb.append(",");
+            sb.append(salary.toString());
+            pw.println(sb.toString());
+            pw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

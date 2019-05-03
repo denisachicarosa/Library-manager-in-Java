@@ -1,12 +1,11 @@
 package com.Model;
 
+import com.Services.FileAdd;
 import com.sun.xml.internal.ws.client.BindingProviderProperties;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import java.io.*;
 
-public class Book  extends  ObjectLoaned implements Comparable<Book> {
+public class Book  extends  ObjectLoaned implements FileAdd, Comparable<Book> {
 
     private String title;
     private String author;
@@ -49,6 +48,15 @@ public class Book  extends  ObjectLoaned implements Comparable<Book> {
         this.publisher = new PublishingHouse(values[3],values[4]);
     }
 
+    @Override
+    public String getPublisherName() {
+        return publisher.getName();
+    }
+
+    @Override
+    public String getPublisherAddress() {
+        return publisher.getAdress();
+    }
 
 
     @Override
@@ -107,5 +115,45 @@ public class Book  extends  ObjectLoaned implements Comparable<Book> {
 
     public int compareTo(Book a) {
         return this.getTitle().compareTo(a.getTitle());
+    }
+
+    @Override
+    public void addToFile(String fileName) {
+
+        File log = new File(fileName);
+        try {
+            PrintWriter pw = new PrintWriter(new FileWriter(log, true));
+            StringBuilder sb = new StringBuilder();
+
+            sb.append(title);
+            sb.append(",");
+            sb.append(author);
+            sb.append(",");
+            sb.append(getShelf().toString());
+            sb.append(",");
+            sb.append(publisher.getName());
+            sb.append(",");
+            sb.append(publisher.getAdress());
+            sb.append(",");
+            sb.append(isAvailable());
+
+            pw.println(sb.toString());
+            pw.close();
+
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public boolean egal (Book b) {
+        System.out.println("in egal book");
+        if (title.equals(b.title) && author.equals(b.author) && getShelf().equals( b.getShelf()) && publisher.getName().equals(b.publisher.getName()) && b.publisher.getAdress().equals(publisher.getAdress())) {
+            System.out.println("return true book");
+            return true;
+        }
+        return false;
     }
 }

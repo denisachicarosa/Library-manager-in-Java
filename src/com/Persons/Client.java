@@ -1,11 +1,11 @@
 package com.Persons;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStreamReader;
+import com.Services.FileAdd;
+
+import java.io.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
-public class Client extends Person {
+public class Client extends Person implements FileAdd {
     private static final AtomicInteger count = new AtomicInteger(0);
     private Integer ID;
     private String contact;
@@ -72,5 +72,41 @@ public class Client extends Person {
 
     public void setContact(String contact) {
         this.contact = contact;
+    }
+
+    @Override
+    public void addToFile(String fileName) {
+        File log = new File(fileName);
+        try {
+            PrintWriter pw = new PrintWriter(new FileWriter(log, true));
+            StringBuilder sb = new StringBuilder();
+
+            sb.append(getFirstName());
+            sb.append(",");
+            sb.append(getLastName());
+            sb.append(",");
+            sb.append(getBirthday());
+            sb.append(",");
+            sb.append(getAdress());
+            sb.append(",");
+            sb.append(getContact());
+
+            pw.println(sb.toString());
+            pw.close();
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public boolean egal(Client c) {
+        //System.out.println("In egal Client");
+        if (this.getFirstName().equals(c.getFirstName()) && this.getLastName().equals(c.getLastName()) && this.getBirthday().equals(c.getBirthday()) && this.getAdress().equals(c.getAdress()) && this.contact.equals(c.contact)) {
+
+            //System.out.println("E egal la client");
+            return true;
+        }
+        return false;
     }
 }

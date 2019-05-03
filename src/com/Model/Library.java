@@ -2,6 +2,7 @@ package com.Model;
 
 import com.Persons.Client;
 import com.Persons.Employee;
+import com.Services.InputFiles;
 
 import java.io.*;
 import java.util.*;
@@ -15,6 +16,7 @@ public class Library {
     private ArrayList<Employee> employees;
     private ArrayList<Client> clients;
     static private Date today;
+    private InputFiles inputFiles;
 
     public Library(){
         name = address = "";
@@ -90,7 +92,9 @@ public class Library {
     public void addBook() {
         Book b = new Book();
         b.readData();
+        b.addToFile(inputFiles.getBookFile());
         books.add(b);
+
     }
 
     public void addMovie(Movie m) { movies.add(m);}
@@ -98,12 +102,13 @@ public class Library {
     public void addMovie() {
         Movie m = new Movie();
         m.readData();
-        addMovie(m);
+        m.addToFile(inputFiles.getMovieFile());
+        movies.add(m);
     }
 
     public boolean findBook(Book b) {
         for ( int i = 0; i < books.size(); i++) {
-            if (books.get(i).getTitle() == b.getTitle() && books.get(i).getAuthor() == b.getAuthor() )
+            if (books.get(i).egal(b))
                 return true;
         }
         return false;
@@ -116,99 +121,35 @@ public class Library {
         String fileName = "library.csv";
         File log = new File(fileName);
         try {
-////            System.out.println("Enter today's date: ");
-////            today.readData();
-//            today.day = 3;
-//            today.month = 4;
-//            today.year = 2019;
-//            System.out.println("Library name: ");
-//            name = reader.readLine();
-//            System.out.println("Library address : ");
-//            address = reader.readLine();
-        Scanner inputStream = new Scanner(log);
-        inputStream.nextLine();
-        while(inputStream.hasNext()) {
-            String data = inputStream.nextLine();
-            String[] values = data.split(",");
-            this.name = values[0];
-            this.address = values[1];
-            String booksFile = values[2];
-            String moviesFile = values[3];
-            String clientsFile = values[4];
-            String loansFile = values[5];
-            String employeesFile = values[6];
-            System.out.println(booksFile);
-            readBooksFromFile(booksFile);
-            readMoviesFromFile(moviesFile);
-            readClientsFromFile(clientsFile);
-            readLoansFromFile(loansFile);
-            readEmployeesFromFile(employeesFile);
+            today.day = 3;
+            today.month = 4;
+            today.year = 2019;
+            Scanner inputStream = new Scanner(log);
+            inputStream.nextLine();
+            while(inputStream.hasNext()) {
+                String data = inputStream.nextLine();
+                String[] values = data.split(",");
+                this.name = values[0];
+                this.address = values[1];
+                String booksFile = values[2];
+                String moviesFile = values[3];
+                String clientsFile = values[4];
+                String loansBook = values[5];
+                String loansMovie = values[6];
+                String employeesFile = values[7];
+                inputFiles = new InputFiles(booksFile,moviesFile,loansMovie,loansBook,clientsFile,employeesFile,fileName);
+                System.out.println(booksFile);
+                readBooksFromFile(booksFile);
+                readMoviesFromFile(moviesFile);
+                readClientsFromFile(clientsFile);
+                readLoansFromFile(loansBook,loansMovie);
+                readEmployeesFromFile(employeesFile);
 
-        }
+            }
 
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-//        System.out.println("Reading books");
-//        int read = 1;
-//        while (read == 1) {
-//            Book b = new Book();
-//            b.readData();
-//            addBook(b);
-//            System.out.println("Press 1 to add another book and 0 to exit");
-//            Scanner in = new Scanner(System.in);
-//            read = in.nextInt();
-//        }
-//
-//        System.out.println("Reading movies");
-//        read = 1;
-//        while (read == 1) {
-//            Movie b = new Movie();
-//            b.readData();
-//            addMovie(b);
-//            System.out.println("Press 1 to add another movie and 0 to exit");
-//            Scanner in = new Scanner(System.in);
-//            read = in.nextInt();
-//        }
-//
-//
-//        read = 1;
-//        System.out.println("Reading loans");
-//        while (read == 1) {
-//            Loan l = new Loan();
-//            l.readData();
-//            if(checkLoan(l)) {
-//                loans.add(l);
-//                if (!clients.contains(l.getClient())) clients.add(l.getClient());
-//            }
-//            else System.out.println("The object doesn't exist in our library");
-//            System.out.println("Press 1 to add another loan and 0 to exit");
-//            Scanner in = new Scanner(System.in);
-//            read = in.nextInt();
-//
-//        }
-//        read = 1;
-//        System.out.println("Reading employees");
-//        while (read == 1) {
-//            Employee e = new Employee();
-//            e.readData();
-//            employees.add(e);
-//            System.out.println("Press 1 to add another employee and 0 to exit");
-//            Scanner in = new Scanner(System.in);
-//            read = in.nextInt();
-//        }
-//        read = 1;
-//        System.out.println("Reading clients");
-//        while (read == 1) {
-//            Client c = new Client();
-//            c.readData();
-//            clients.add(c);
-//            System.out.println("Press 1 to add another client and 0 to exit");
-//            Scanner in = new Scanner(System.in);
-//            read = in.nextInt();
-//        }
-//        System.out.println("Reading is over");
     }
 
     public void printBooks() {
@@ -279,11 +220,11 @@ public class Library {
     }
 
     public boolean checkAvailable(ObjectLoaned object) {
-        if (object.getClass().getName() == "Book") {
+        if (object.getClass().getName() == "com.Model.Book") {
             int idx = getBookIndex(object.getID());
             return books.get(idx).isAvailable();
         }
-        else if (object.getClass().getName() == "Movie") {
+        else if (object.getClass().getName() == "com.Model.Movie") {
             int idx = getMovieIndex(object.getID());
             return movies.get(idx).isAvailable();
         }
@@ -294,7 +235,7 @@ public class Library {
 
     public boolean checkLoan(Loan l) {
         System.out.println("check loan");
-        if (l.getObject().getClass().getName() == "Book") {
+        if (l.getObject().getClass().getName() == "com.Model.Book") {
             System.out.println("You want to add a book");
             for ( int i = 0; i < books.size(); i++) {
                 if(books.get(i).getAuthor().equals(l.getObject().getAuthor()) && books.get(i).getTitle().equals(l.getObject().getTitle()))
@@ -303,7 +244,7 @@ public class Library {
             return false;
         }
         else
-        if (l.getObject().getClass().getName() == "Movie") {
+        if (l.getObject().getClass().getName() == "com.Model.Movie") {
             System.out.println("Testez filmele");
             for (int i = 0; i < movies.size(); i++) {
                 if (movies.get(i).getTitle().equals(l.getObject().getTitle()) && movies.get(i).getGenre().equals(l.getObject().getGenre()))
@@ -317,15 +258,87 @@ public class Library {
         return false;
     }
 
+
     public void addLoan() {
-        Loan l = new Loan();
-        l.readData();
+        Client c = new Client();
+        c.readData();
+        int indexC = findCIndex(c);
+
+        ObjectLoaned object;
+        System.out.println("Do you want to loan a book or a movie? ");
+        BufferedReader reader = new BufferedReader(new InputStreamReader(System.in));
+        String obj = "";
+
+        int indexO = 0;
+        String type;
+
+        try {
+            obj = reader.readLine();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        switch (obj) {
+            case "book": {
+                object = new Book();
+                object.readData();
+                indexO = findIndexO(object);
+                type = "book";
+                break;
+            }
+            case "movie": {
+
+                object = new Movie();
+                object.readData();
+                indexO = findIndexO(object);
+                type = "movie";
+                break;
+            }
+            default: {
+                object = new ObjectLoaned();
+                type = "no";
+                break;
+            }
+        }
+
+        Date loanDate = new Date();
+        System.out.println("Loan date");
+        loanDate.readData();
+
+        Date returnDate = loanDate.addDays(14);
+        System.out.println("Index obj = " + indexO);
+
+        Loan l;
+        if(indexC == -1) {
+            if (indexO == -1)
+                l = new Loan(c, object, loanDate, returnDate);
+            else if ( type == "book")
+                l = new Loan(c, books.get(indexO),loanDate,returnDate);
+            else l = new Loan(c, movies.get(indexO),loanDate,returnDate);
+        }
+        else {
+            if (indexO == -1)
+                l = new Loan(clients.get(indexC), object, loanDate, returnDate);
+            else if ( type == "book")
+                l = new Loan(clients.get(indexC), books.get(indexO),loanDate,returnDate);
+            else l = new Loan(clients.get(indexC), movies.get(indexO),loanDate,returnDate);
+        }
+
         if(checkLoan(l)) {
-            System.out.println("passed");
             if (l.getObject().isAvailable()) {
                 loans.add(l);
+
+                if (l.getObject().getClass().getName() == "com.Model.Book")
+                l.addToFile(inputFiles.getLoanBookFile());
+                else if (l.getObject().getClass().getName() == "com.Model.Movie") {
+                    l.addToFile(inputFiles.getLoanMovieFile());
+                }
                 System.out.println("Loan added");
-                if (!clients.contains(l.getClient())) clients.add(l.getClient());
+
+                if (!clients.contains(l.getClient())) {
+                    clients.add(l.getClient());
+                    l.getClient().addToFile(inputFiles.getClientFile());
+                }
             }
             else System.out.println("The object is not available");
         }
@@ -334,14 +347,41 @@ public class Library {
         }
     }
 
+    public int findIndexO(ObjectLoaned o) {
+        if (o.getClass().getName() == "com.Model.Book") {
+            for (int i = 0; i < books.size(); i++)
+                if (books.get(i).getTitle().equals(o.getTitle()) && books.get(i).getAuthor().equals(o.getAuthor()) && books.get(i).getShelf().equals(o.getShelf()) && books.get(i).getPublisher().getName().equals(o.getPublisherName()) && books.get(i).getPublisherAddress().equals(o.getPublisherAddress()))
+                    return i;
+            return -1;
+        }
+        else if (o.getClass().getName() == "com.Model.Movie") {
+            for (int i = 0; i < movies.size(); i++) {
+                if (movies.get(i).getShelf().equals(o.getShelf())){
+                    if (movies.get(i).getTitle().equals(o.getTitle())) {
+                        if (movies.get(i).getGenre().equals(o.getGenre())) {
+                            if (movies.get(i).getRating().equals(o.getRating())) {
+                                return i;
+
+                            } else System.out.println("rating");
+                        } else System.out.println("genre");
+                    } else System.out.println("title");
+                } else System.out.println("shelf");
+            }
+            return -1;
+    }
+        return -1;
+    }
+
     public void addClient(){
         Client c = new Client();
         c.readData();
+        c.addToFile(inputFiles.getClientFile());
         clients.add(c);
     }
     public void addEmployee() {
         Employee e = new Employee();
         e.readData();
+        e.addToFile(inputFiles.getEmployeeFile());
         employees.add(e);
     }
     public boolean findBook(String title, String author) {
@@ -350,6 +390,27 @@ public class Library {
                 return true;
         }
         return false;
+    }
+
+    public int findBIndex(Book b) {
+        for (int i = 0; i < books.size(); i++)
+            if (books.get(i).egal(b))
+                return i;
+        return -1;
+    }
+
+    public int findMIndex(Movie m) {
+        for (int i = 0; i < movies.size(); i++)
+            if (movies.get(i).egal(m))
+                return i;
+        return -1;
+    }
+
+    public int findCIndex(Client c) {
+        for (int i = 0; i < clients.size(); i++)
+            if (clients.get(i).egal(c))
+                return i;
+        return -1;
     }
 
     public int getBookIndex(int index) {
@@ -375,10 +436,11 @@ public class Library {
 //        }
 
         for (int i = 0; i < loans.size(); i++) {
-            if (loans.get(i).getObject().getClass().getName() == "Book") {
-
+            if (loans.get(i).getObject().getClass().getName() == "com.Model.Book") {
                 if (!returnedObject(loans.get(i))) {
+//                    System.out.println(books.size());
                     idx = getBookIndex(loans.get(i).getObject().getID());
+//                    System.out.println(idx);
                     books.get(idx).setAvailable(true);
                 } else {
                     idx = getBookIndex(loans.get(i).getObject().getID());
@@ -386,7 +448,7 @@ public class Library {
 
                 }
             }
-            else if (loans.get(i).getObject().getClass().getName() == "Movie") {
+            else if (loans.get(i).getObject().getClass().getName() == "com.Model.Movie") {
                 if (!returnedObject(loans.get(i))) {
                     idx = getMovieIndex(loans.get(i).getObject().getID());
                     movies.get(idx).setAvailable(true);
@@ -469,12 +531,27 @@ public class Library {
             e.printStackTrace();
         }
     }
-    public void readLoansFromFile(String fileName) {
-        File log = new File(fileName);
+    public void readLoansFromFile(String fileName1, String fileName2) {
+        File log = new File(fileName1);
         try {
             Scanner inputStream = new Scanner(log);
             inputStream.nextLine();
             while (inputStream.hasNext()) {
+                String data = inputStream.nextLine();
+                String[] values = data.split(",");
+                Loan loan = new Loan (values);
+                loans.add(loan);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        }
+        log = new File(fileName2);
+        try {
+            Scanner inputStream = new Scanner(log);
+            inputStream.nextLine();
+            while (inputStream.hasNext()) {
+
+
                 String data = inputStream.nextLine();
                 String[] values = data.split(",");
                 Loan loan = new Loan (values);
