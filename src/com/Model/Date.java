@@ -60,13 +60,13 @@ public class Date {
         x = bd.charAt(0) - '0';
         x = x*10;
         x = x + (bd.charAt(1) - '0');
-        day = x;
+        this.day = x;
 
         x = 0;
         x = bd.charAt(3) - '0';
         x = x*10;
         x = x + (bd.charAt(4) - '0');
-        month = x;
+        this.month = x;
 
         x = 0;
         x = bd.charAt(6) - '0';
@@ -76,7 +76,7 @@ public class Date {
         x = x + (bd.charAt(8) - '0');
         x = x*10;
         x = x + (bd.charAt(9) - '0');
-        year = x;
+        this.year = x;
     }
 
     public void printData() {

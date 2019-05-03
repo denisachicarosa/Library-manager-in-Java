@@ -362,10 +362,10 @@ public class Library {
                             if (movies.get(i).getRating().equals(o.getRating())) {
                                 return i;
 
-                            } else System.out.println("rating");
-                        } else System.out.println("genre");
-                    } else System.out.println("title");
-                } else System.out.println("shelf");
+                            } //else System.out.println("rating");
+                        } //else System.out.println("genre");
+                    } //else System.out.println("title");
+                } //else System.out.println("shelf");
             }
             return -1;
     }
@@ -451,11 +451,11 @@ public class Library {
             else if (loans.get(i).getObject().getClass().getName() == "com.Model.Movie") {
                 if (!returnedObject(loans.get(i))) {
                     idx = getMovieIndex(loans.get(i).getObject().getID());
-                    movies.get(idx).setAvailable(true);
+                    if (idx > 0) movies.get(idx).setAvailable(true);
 
                 } else {
                     idx = getMovieIndex(loans.get(i).getObject().getID());
-                    movies.get(idx).setAvailable(false);
+                    if(idx >0 ) movies.get(idx).setAvailable(false);
                 }
             }
         }
