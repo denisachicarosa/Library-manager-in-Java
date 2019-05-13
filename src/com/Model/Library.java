@@ -2,9 +2,14 @@ package com.Model;
 
 import com.Persons.Client;
 import com.Persons.Employee;
+import com.Services.DatabaseConnection;
 import com.Services.InputFiles;
 
+import javax.xml.crypto.Data;
 import java.io.*;
+import java.sql.DriverManager;
+import java.sql.Statement;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class Library {
@@ -25,14 +30,20 @@ public class Library {
         employees = new ArrayList<>();
         clients = new ArrayList<>();
         movies = new ArrayList<>();
+        setToday();
+    }
 
 
+    private void setToday () {
+        SimpleDateFormat formatter = new SimpleDateFormat("dd,MM,yyyy");
+        java.util.Date date = new java.util.Date(System.currentTimeMillis());
+        String date2 = formatter.format(date);
+        String[] coord = date2.split(",");
 
         today = new Date();
-        today.day = 29;
-        today.month = 3;
-        today.year = 2019;
-        //addThings();
+        today.day = Integer.parseInt(coord[0]);
+        today.month = Integer.parseInt(coord[1]);
+        today.year = Integer.parseInt(coord[2]);
     }
 
     public void addThings() {
@@ -74,6 +85,7 @@ public class Library {
         loans = new ArrayList<>();
         employees = new ArrayList<>();
         clients = new ArrayList<>();
+        setToday();
     }
 
     public Library(String name, String address, ArrayList<Book> books, ArrayList<Loan> loans, ArrayList<Employee> employees, ArrayList<Client> clients) {
@@ -83,6 +95,7 @@ public class Library {
         this.loans = loans;
         this.employees = employees;
         this.clients = clients;
+        setToday();
     }
 
     public void addBook(Book b) {
@@ -118,37 +131,47 @@ public class Library {
 
 
     public void readData() {
-        String fileName = "library.csv";
-        File log = new File(fileName);
-        try {
-            today.day = 3;
-            today.month = 4;
-            today.year = 2019;
-            Scanner inputStream = new Scanner(log);
-            inputStream.nextLine();
-            while(inputStream.hasNext()) {
-                String data = inputStream.nextLine();
-                String[] values = data.split(",");
-                this.name = values[0];
-                this.address = values[1];
-                String booksFile = values[2];
-                String moviesFile = values[3];
-                String clientsFile = values[4];
-                String loansBook = values[5];
-                String loansMovie = values[6];
-                String employeesFile = values[7];
-                inputFiles = new InputFiles(booksFile,moviesFile,loansMovie,loansBook,clientsFile,employeesFile,fileName);
-                System.out.println(booksFile);
-                readBooksFromFile(booksFile);
-                readMoviesFromFile(moviesFile);
-                readClientsFromFile(clientsFile);
-                readLoansFromFile(loansBook,loansMovie);
-                readEmployeesFromFile(employeesFile);
+        System.out.println(" Read from file or database ?");
+        String ans;
+        Scanner scanner = new Scanner(System.in);
+        ans = scanner.nextLine();
 
+        if (ans.equals("file")) {
+
+            String fileName = "library.csv";
+            File log = new File(fileName);
+            try {
+                setToday();
+                Scanner inputStream = new Scanner(log);
+                inputStream.nextLine();
+                while (inputStream.hasNext()) {
+                    String data = inputStream.nextLine();
+                    String[] values = data.split(",");
+                    this.name = values[0];
+                    this.address = values[1];
+                    String booksFile = values[2];
+                    String moviesFile = values[3];
+                    String clientsFile = values[4];
+                    String loansBook = values[5];
+                    String loansMovie = values[6];
+                    String employeesFile = values[7];
+                    inputFiles = new InputFiles(booksFile, moviesFile, loansMovie, loansBook, clientsFile, employeesFile, fileName);
+                    System.out.println(booksFile);
+                    readBooksFromFile(booksFile);
+                    readMoviesFromFile(moviesFile);
+                    readClientsFromFile(clientsFile);
+                    readLoansFromFile(loansBook, loansMovie);
+                    readEmployeesFromFile(employeesFile);
+
+                }
+
+            } catch (IOException e) {
+                e.printStackTrace();
             }
+        } else if (ans.equals("database")) {
 
-        } catch (IOException e) {
-            e.printStackTrace();
+
+
         }
     }
 
@@ -372,6 +395,13 @@ public class Library {
         return -1;
     }
 
+    public  void addClient(Client c) {
+        clients.add(c);
+    }
+
+    public void addEmployee(Employee e) {
+        employees.add(e);
+    }
     public void addClient(){
         Client c = new Client();
         c.readData();
